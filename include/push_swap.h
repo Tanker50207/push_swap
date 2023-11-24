@@ -27,13 +27,17 @@ typedef enum e_action
 {
 	SA,
 	SB,
+	SS,
 	PA,
 	PB,
 	RA,
 	RB,
+	RR,
 	RRA,
 	RRB,
-	STOP
+	RRR,
+	STOP,
+	DEL
 }		t_action;
 
 t_stack		*innit_stack(int size);
@@ -44,5 +48,7 @@ t_stack		*rotate(t_stack *stack);
 t_stack		*reverse_rotate(t_stack *stack);
 t_action	*add_action(t_action *lst, t_action action);
 t_action	*sort(t_stack a, t_stack b);
+int			check_sorted(t_stack a);
+t_action	*optimize(t_action *lst, t_stack a, t_stack b);
 
 #endif

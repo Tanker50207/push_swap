@@ -9,6 +9,7 @@
 /*   Updated: 2023/11/15 16:51:40 by gcrepin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "push_swap.h"
 
 static int	*to_int_tab(char **argv)
@@ -86,6 +87,7 @@ int	main(int argc, char **argv)
 		return (free_all_stacks(a, b));
 	a->size = a->size_max;
 	actions = sort(*a, *b);
+	actions = optimize(actions, *a, *b);
 	print_actions(actions);
 	free_all_stacks(a, b);
 	if (actions)
