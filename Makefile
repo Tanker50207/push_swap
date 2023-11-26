@@ -1,7 +1,7 @@
-CFLAGS= -Wextra -Wall -Werror -g
+CFLAGS= -g #-Wextra -Wall -Werror
 LIBS	:= -lft -L./lib/libft
 NAME = push_swap
-OBJECTS = src/main.o src/sort.o src/stack.o src/actions.o
+OBJECTS = src/sort.o src/stack.o src/actions.o src/naive_optimizer.o src/main.o src/optimizer_actions.o src/optimizer.o src/simulator.o src/dict_maker.o
 DEPS = -I./include -I./lib/libft
 
 all: $(LIBMLX) space
@@ -12,7 +12,7 @@ all: $(LIBMLX) space
 
 $(NAME): $(OBJECTS) include/push_swap.h
 	@echo
-	$(CC) $(OBJECTS) $(LIBS) -o $(NAME) $(CFLAGS)
+	$(CC) $(OBJECTS) $(LIBS) -o $(NAME) $(CFLAGS) $(DEPS)
 	@echo "\033[1;32mpush_swap compiled\033[0m"
 	@echo
 

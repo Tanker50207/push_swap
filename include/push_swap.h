@@ -37,7 +37,8 @@ typedef enum e_action
 	RRB,
 	RRR,
 	STOP,
-	DEL
+	DEL,
+	DEBUG
 }		t_action;
 
 t_stack		*innit_stack(int size);

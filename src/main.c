@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcrepin <gcrepin@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: gcrepin <gcrepin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 14:40:07 by gcrepin           #+#    #+#             */
-/*   Updated: 2023/11/15 16:51:40 by gcrepin          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:38:01 by gcrepin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static int	free_all_stacks(t_stack *a, t_stack *b)
 	return (0);
 }
 
-static void	print_actions(t_action *actions)
+static void	print_actions(const t_action *actions)
 {
 	int	i;
 
@@ -64,6 +64,8 @@ static void	print_actions(t_action *actions)
 			ft_printf("rra\n");
 		else if (actions[i] == RRB)
 			ft_printf("rrb\n");
+		else if (actions[i] == DEBUG)
+			ft_printf("debug\n");
 		i++;
 	}
 }

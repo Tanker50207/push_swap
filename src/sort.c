@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gcrepin <gcrepin@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: gcrepin <gcrepin@student.42quebec.com>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/08 11:36:31 by gcrepin           #+#    #+#             */
-/*   Updated: 2023/11/24 15:45:13 by gcrepin          ###   ########.fr       */
+/*   Updated: 2023/11/24 16:36:51 by gcrepin          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,22 @@ static t_action	*n_join(t_action	*lst, int h_index, int l_index,
 	return (lst);
 }
 
+static int	find_lowest(t_stack stack)
+{
+	int	i;
+	int	index;
+
+	i = 0;
+	index = i;
+	while (i < stack.size)
+	{
+		if (stack.tab[i] < stack.tab[index])
+			index = i;
+		i++;
+	}
+	return (index);
+}
+
 static int	find_next_highest(t_stack a, int high)
 {
 	int	i;
@@ -163,13 +179,11 @@ static int	find_next(t_stack a, int i)
 	return (next_i);
 }
 
-static int find_prev(t_stack a)
+static int find_prev(t_stack a, int cur)
 {
 	int	prev_i;
-	int	cur;
 	int	i;
 
-	cur = a.tab[0];
 	prev_i = -1;
 	i = 0;
 	while (i < a.size)
@@ -194,74 +208,94 @@ static t_action	*join_r(t_action * lst, t_stack *a, t_stack *b, int ult)
 //	ft_printf("ult = %d, depth = %d\n", ult, depth);
 	if (ult == depth)
 		return (lst);
-	prev_i = find_prev(*a);
+//	if (depth > ult || depth > a->size_max || ult > a->size_max)
+//		ft_printf("depth = %d, ult = %d\n", depth, ult);
+	if (depth > ult + 50)
+		exit(EXIT_FAILURE);
+	prev_i = find_prev(*a, a->tab[0]);
+	if (prev_i != -1)
+		prev_i++;
 	next_i = find_next(*a, 0);
 //	ft_printf("prev_i = %d, next_i = %d\n", prev_i, next_i);
 	index = 0;
 	if (prev_i == -1 && next_i == -1)
 		return (lst);
 	if ((prev_i == -1 && next_i + depth <= ult)
-		|| (next_i != -1 && next_i + depth <= ult && next_i < prev_i))
+		|| (next_i != -1 && next_i + depth <= ult && next_i <= prev_i))
 	{
 		push(b, a);
 		lst = add_action(lst, PB);
+//		ft_printf("next\n");
 		index = next_i + depth;
 		prev_i = -1;
 	}
-	else if (prev_i != -1 && prev_i + depth + 1 < ult)
+	else if (prev_i != -1 && prev_i + depth <= ult && prev_i < next_i)
 	{
+//		ft_printf("prev_i = %d, depth = %d, ult = %d\n", prev_i, depth, ult);
 		push(b, a);
 		lst = add_action(lst, PB);
-		index = prev_i + depth + 1;
+//		ft_printf("prev\n");
+		index = prev_i + depth;
 		next_i = -1;
 	}
 	if (index)
 	{
-		while (index - (prev_i == -1) != depth)
-//		while (index != depth)
+//		ft_printf("sending to depth %d\n", index - (prev_i == -1));
+		while (index - 1 != depth)
+		{
 			lst = join_r(lst, a, b, index);
+			if (next_i == -1)
+			{
+				index = find_prev(*a, b->tab[0]) + depth + 1;
+				if (index > a->size)
+				{
+//					ft_printf("revised absolute index = %d\n", index);
+//					ft_printf("revised relative index = %d\n", index - depth - 1);
+				}
+				if (find_prev(*a, b->tab[0]) == a->size - 1)
+				{
+					lst = add_action(lst, RRA);
+					reverse_rotate(a);
+					index = depth;
+					depth--;
+					break ;
+				}
+			}
+		}
+		if (next_i == -1)
+		{
+			lst = add_action(lst, RA);
+			rotate(a);
+			depth++;
+//			if (find_prev(*a, b->tab[0]) == 0)
+//			{
+//				ft_printf("WHY? depth = %d, ult = %d, index = %d\n", depth, ult, index);
+//			}
+		}
 		push(a, b);
 		lst = add_action(lst, PA);
-		if (prev_i != -1 && prev_i + depth < ult)
-			depth--;
+//		if (next_i == -1 && find_prev(*a, a->tab[0]) == a->size - 1)
+//			depth--;
+//		if (prev_i != -1 && prev_i + depth < ult)
+//			depth--;
 	}
-	if (index && next_i != -1)
-//	if (index && b->tab[0] > a->tab[find_prev(*a)] && b->tab[0] < a->tab[0] && next_i != -1)
-		(void) 0;
-	else
+//	if (index && next_i != -1)
+	if (index && prev_i != -1 && find_prev(*a, b->tab[0]) == a->size - 1)
+	{
+//		ft_printf("YOU SHALL NOT ROTATE!\n reason: ");
+//		if (b->tab[0] > a->tab[find_prev(*a, a->tab[0])] && b->tab[0] < a->tab[0])
+//			ft_printf("b[0] = %d > a[prev] = %d && b[0] = %d < a[0] = %d\n", b->tab[0], a->tab[find_prev(*a, a->tab[0])], b->tab[0], a->tab[0]);
+//		else
+//			ft_printf("find_prev(*a, b->tab[0]) = %d == a->size - 1 = %d\n", find_prev(*a, b->tab[0]), a->size - 1);
+		depth--;
+	}
+	else if (!(index && next_i == -1))
 	{
 		lst = add_action(lst, RA);
 		rotate(a);
 	}
 	return (lst);
 }
-
-static t_action	*join(t_action *lst, t_stack *a, t_stack *b)
-{
-	int			prev_i;
-	int			next_i;
-	int			destination;
-	t_action	direction;
-
-	prev_i = find_prev(*a);
-	next_i = find_next(*a, 0);
-	if (prev_i == -1 && next_i == -1)
-		return (lst);
-	if (prev_i == -1 || (next_i < a->size / 2 && next_i < prev_i)
-		|| (next_i > a->size / 2 && next_i > prev_i))
-		destination = next_i;
-	else
-		destination = prev_i + 1;
-	if (destination == a->size)
-		return (lst);
-	if (destination < a->size / 2)
-		direction = RA;
-	else
-		direction = RRA;
-	push(b, a);
-	lst = add_action(lst, PB);
-	return (lst);
-} //TODO: Fix this
 
 static t_action	*n_sort(t_action *lst,t_stack *a,t_stack *b)
 {
@@ -287,9 +321,30 @@ static t_action	*n_sort(t_action *lst,t_stack *a,t_stack *b)
 
 static t_action	*my_sort(t_action *lst, t_stack *a, t_stack *b)
 {
+	while (find_lowest(*a) != 0)
+	{
+		lst = join_r(lst, a, b, find_lowest(*a));
+//		lst = add_action(lst, DEBUG);
+		if (find_lowest(*a) != 0)
+		{
+			lst = add_action(lst, RA);
+			rotate(a);
+		}
+	}
 	while (!check_unnordered(a))
 	{
+//		if (find_lowest(*a) != 0)
+//		{
+//			lst = add_action(lst, RRA);
+//			reverse_rotate(a);
+//		}
+		if (find_prev(*a, a->tab[0]) == a->size - 1)
+		{
+			lst = add_action(lst, RRA);
+			reverse_rotate(a);
+		}
 		lst = join_r(lst, a, b, a->size);
+//		lst = add_action(lst, DEBUG);
 		lst = optimize(lst, *a, *b);
 	}
 	while (!check_sorted(*a))

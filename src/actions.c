@@ -117,6 +117,9 @@ t_action	*add_action(t_action *lst, t_action action)
 //		case RRB:
 //			ft_printf("rrb\n");
 //			break;
+//		case DEBUG:
+//			ft_printf("debug\n");
+//			break;
 //		default:
 //			break;
 //	}
