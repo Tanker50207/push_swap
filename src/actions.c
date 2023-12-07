@@ -81,47 +81,18 @@ t_stack	*reverse_rotate(t_stack *stack)
 
 t_action	*add_action(t_action *lst, t_action action)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
+	if (!lst)
+		return (NULL);
 	while (lst[i] != STOP)
 		i++;
-	lst = (t_action *)ft_realloc(lst, sizeof(t_action) * (i + 2));
+	lst = (t_action *)ft_realloc(lst,
+			sizeof(t_action) * (i + 2), sizeof(t_action) * i);
 	if (!lst)
 		return (NULL);
 	lst[i] = action;
 	lst[i + 1] = STOP;
-//	switch (action)
-//	{
-//		case SA:
-//			ft_printf("sa\n");
-//			break;
-//		case SB:
-//			ft_printf("sb\n");
-//			break;
-//		case PA:
-//			ft_printf("pa\n");
-//			break;
-//		case PB:
-//			ft_printf("pb\n");
-//			break;
-//		case RA:
-//			ft_printf("ra\n");
-//			break;
-//		case RB:
-//			ft_printf("rb\n");
-//			break;
-//		case RRA:
-//			ft_printf("rra\n");
-//			break;
-//		case RRB:
-//			ft_printf("rrb\n");
-//			break;
-//		case DEBUG:
-//			ft_printf("debug\n");
-//			break;
-//		default:
-//			break;
-//	}
 	return (lst);
 }

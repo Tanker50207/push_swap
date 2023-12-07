@@ -15,10 +15,14 @@
 
 # include "push_swap.h"
 
-t_action	*replace_one(t_action *lst, int i, int size, t_action replace);
+t_action	*replace_one(t_action *lst, size_t i,
+				size_t size, t_action replace);
 t_action	*cleanup(t_action *lst);
-t_action	*start_naive_optimize(t_action *lst);
-t_action	*lst_dup(t_action *lst);
-int			lst_compare(t_action *lst_a, t_action *lst_b);
+t_action	*lst_dup(const t_action *lst);
+t_action	*naive_prs_optimize(t_action *lst);
+int			lst_compare(const t_action *lst_a, const t_action *lst_b);
+size_t		lst_size(const t_action *lst);
+t_action	*rotation_optimizer(t_action *lst, t_stack a, t_stack b);
+t_action	*find_best_swap(t_action *lst);
 
 #endif

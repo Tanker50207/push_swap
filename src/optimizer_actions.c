@@ -12,11 +12,13 @@
 
 #include "optimizer.h"
 
-t_action	*lst_dup(t_action *lst)
+t_action	*lst_dup(const t_action *lst)
 {
-	int			i;
+	size_t		i;
 	t_action	*dup;
 
+	if (!lst)
+		return (NULL);
 	i = 0;
 	while (lst[i] != STOP)
 		i++;
@@ -33,11 +35,13 @@ t_action	*lst_dup(t_action *lst)
 	return (dup);
 }
 
-int	lst_compare(t_action *lst_a, t_action *lst_b)
+int	lst_compare(const t_action *lst_a, const t_action *lst_b)
 {
-	int	i;
+	size_t	i;
 
 	i = 0;
+	if (!lst_a || !lst_b)
+		return (0);
 	while (lst_a[i] != STOP && lst_b[i] != STOP)
 	{
 		if (lst_a[i] != lst_b[i])
@@ -49,23 +53,27 @@ int	lst_compare(t_action *lst_a, t_action *lst_b)
 	return (1);
 }
 
-t_action	*replace_one(t_action *lst, int i, int size, t_action replace)
+t_action	*replace_one(t_action *lst, size_t i, size_t size, t_action replace)
 {
-	int	j;
+	size_t	j;
 
+	if (!lst)
+		return (NULL);
 	lst[i] = replace;
 	j = 1;
-	while (j < size && lst[i + j] != STOP) //Second condition potentially redundant, but better be safe than sorry
+	while (j < size && lst[i + j] != STOP)
 		lst[i + j++] = DEL;
 	return (lst);
 }
 
 t_action	*cleanup(t_action *lst)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
+	if (!lst)
+		return (NULL);
 	while (lst[i] != STOP)
 	{
 		if (lst[i] == DEL)
