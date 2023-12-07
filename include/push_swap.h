@@ -14,7 +14,6 @@
 # define PUSH_SWAP_H
 
 # include "libft.h"
-# include <limits.h>
 
 typedef struct s_stack
 {
@@ -37,8 +36,7 @@ typedef enum e_action
 	RRB,
 	RRR,
 	STOP,
-	DEL,
-	DEBUG
+	DEL
 }		t_action;
 
 t_stack		*innit_stack(int size);
@@ -49,7 +47,12 @@ t_stack		*rotate(t_stack *stack);
 t_stack		*reverse_rotate(t_stack *stack);
 t_action	*add_action(t_action *lst, t_action action);
 t_action	*sort(t_stack a, t_stack b);
-int			check_sorted(t_stack a);
 t_action	*optimize(t_action *lst, t_stack a, t_stack b);
+void		exec_action(t_action action, t_stack *a, t_stack *b);
+int			has_dup(const int *tab, int size);
+int			*sanitize_int_tab(int *tab, int size);
+void		error(void);
+int			free_all_stacks(t_stack *a, t_stack *b, int *tab);
+void		error_and_free(t_stack *a, t_stack *b, int *tab);
 
 #endif

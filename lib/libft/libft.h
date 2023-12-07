@@ -72,6 +72,6 @@ char	*ft_strmap(char *s, char (*f)(char));
 void	ft_striter(char *s, void (*f)(char *));
 int		ft_strcmp(const char *s1, const char *s2);
 void	ft_sort_int_tab(int *tab, int size);
-void	*ft_realloc(void *ptr, size_t size);
+void	*ft_realloc(void *ptr, size_t new_size, size_t old_size);
 
 #endif

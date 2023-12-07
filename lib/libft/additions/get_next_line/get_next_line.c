@@ -12,7 +12,7 @@
 
 #include "get_next_line.h"
 
-void	*ft_realloc(void *ptr, size_t size)
+void	*ft_gnl_realloc(void *ptr, size_t size)
 {
 	void	*ret;
 	size_t	i;
@@ -81,7 +81,7 @@ char	*get_next_line(int fd)
 	ret = 0;
 	while (!ft_strchr(ret, '\n') && fd >= 0 && fd < FD_SET_MAX)
 	{
-		ret = ft_realloc(ret, ft_strlen(ret) + ft_strlen(buf[fd]));
+		ret = ft_gnl_realloc(ret, ft_strlen(ret) + ft_strlen(buf[fd]));
 		if (!ret)
 			return (0);
 		ft_strcat(ret, buf[fd]);
