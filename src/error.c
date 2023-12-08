@@ -20,7 +20,9 @@ void	error(void)
 
 void	error_and_free(t_stack *a, t_stack *b, int *tab)
 {
-	free_all_stacks(a, b, tab);
+	free_all_stacks(a, b);
+	if (tab)
+		free(tab);
 	error();
 }
 
@@ -41,7 +43,7 @@ int	is_valid_int(char *str)
 	}
 	if (ft_strlen(str) > (size_t)(11 - (ft_isdigit(str[0]))))
 		return (0);
-	if (ft_atoi(str) > 2147483647 || ft_atoi(str) < -2147483648)
-		return (0);
+//	if (ft_atoi(str) > 2147483647 || ft_atoi(str) < -2147483648)
+//		return (0);
 	return (1);
 }//TODO: finish

@@ -52,7 +52,8 @@ void		exec_action(t_action action, t_stack *a, t_stack *b);
 int			has_dup(const int *tab, int size);
 int			*sanitize_int_tab(int *tab, int size);
 void		error(void);
-int			free_all_stacks(t_stack *a, t_stack *b, int *tab);
+int			free_all_stacks(t_stack *a, t_stack *b);
 void		error_and_free(t_stack *a, t_stack *b, int *tab);
+int			is_valid_int(char *str);
 
 #endif

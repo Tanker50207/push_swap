@@ -26,6 +26,11 @@ static int	*to_int_tab(char **argv)
 	i = 0;
 	while (argv[i])
 	{
+		if (!is_valid_int(argv[i]))
+		{
+			free(tab);
+			return (NULL);
+		}
 		tab[i] = ft_atoi(argv[i]);
 		i++;
 	}
@@ -38,14 +43,12 @@ static int	*to_int_tab(char **argv)
 	return (tab);
 }
 
-int	free_all_stacks(t_stack *a, t_stack *b, int *tab)
+int	free_all_stacks(t_stack *a, t_stack *b)
 {
 	if (a)
 		free_stack(a);
 	if (b)
 		free_stack(b);
-	if (tab)
-		free(tab);
 	return (0);
 }
 
@@ -119,7 +122,8 @@ int	main(int argc, char **argv)
 	actions = optimize(actions, *a, *b);
 	print_actions(actions);
 	if (!actions)
-		error_and_free(a, b, tab);
-	free_all_stacks(a, b, tab);
+		error_and_free(a, b, NULL);
+	free(actions);
+	free_all_stacks(a, b);
 	return (0);
 }
