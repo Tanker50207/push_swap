@@ -1,4 +1,4 @@
-CFLAGS= -g #-Wextra -Wall -Werror
+CFLAGS= -g -Wextra -Wall -Werror
 LIBS	:= -lft -L./lib/libft
 NAME = push_swap
 OBJECTS = src/sort.o src/stack.o src/actions.o src/naive_optimizer.o src/main.o src/optimizer_actions.o src/optimizer.o src/error.o src/executor.o src/roadtrip_sort.o src/roadtrip_utils.o src/rotation_optimizer.o src/s_optimizer.o src/sort_utils.o src/tab_verifyer.o
